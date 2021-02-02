@@ -1,0 +1,167 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BitVector &#8212; SimulAVR  documentation</title>
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">SimulAVR  documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">BitVector</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-bitvec">
+<span id="bitvector"></span><span id="bitvec"></span><h1>BitVector<a class="headerlink" href="#module-bitvec" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="bitvec.BitVector">
+<em class="property">class </em><code class="sig-prename descclassname">bitvec.</code><code class="sig-name descname">BitVector</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">w</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bitvec.html#BitVector"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bitvec.BitVector" title="Permalink to this definition">¶</a></dt>
+<dd><p>Represents a binary word of a certain size, but less or equal to
+16 bits unsigned.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>_w</strong> (<em>int</em><em>, </em><em>private</em>) – Codec the value of BitVector</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="bitvec.BitVector.extract_field_s">
+<code class="sig-name descname">extract_field_s</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">mask</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bitvec.html#BitVector.extract_field_s"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bitvec.BitVector.extract_field_s" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply a mask over the seld and extract selected bits. The
+result is a signed value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>mask</strong> – Binary mask</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Postive or negative integrer</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="bitvec.BitVector.extract_field_u">
+<code class="sig-name descname">extract_field_u</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">mask</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bitvec.html#BitVector.extract_field_u"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bitvec.BitVector.extract_field_u" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply a mask over the self and extract the selected bits. The
+result is an unsigned value.</p>
+<dl class="simple">
+<dt>For example:</dt><dd><p>self   - 0b10100110
+mask   - 0b00110011
+result - 0b00001010</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>mask</strong> (<em>integrer</em><em>, </em><em>binary</em>) – Binary mask</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Postive integrer</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="bitvec.Byte">
+<em class="property">class </em><code class="sig-prename descclassname">bitvec.</code><code class="sig-name descname">Byte</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">w</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bitvec.html#Byte"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bitvec.Byte" title="Permalink to this definition">¶</a></dt>
+<dd><p>Represents a word of 8 bits</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="bitvec.Word">
+<em class="property">class </em><code class="sig-prename descclassname">bitvec.</code><code class="sig-name descname">Word</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">w</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bitvec.html#Word"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bitvec.Word" title="Permalink to this definition">¶</a></dt>
+<dd><p>Represent a word of 16 bits</p>
+<dl class="py method">
+<dt id="bitvec.Word.lsb">
+<code class="sig-name descname">lsb</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/bitvec.html#Word.lsb"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bitvec.Word.lsb" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the less significant byte</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="bitvec.Word.msb">
+<code class="sig-name descname">msb</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/bitvec.html#Word.msb"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bitvec.Word.msb" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the most significant byte</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/bitvec.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">SimulAVR  documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">BitVector</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2020, Pau Belomnte Martí &amp; David Fernandez Pons &amp; Llorenç Garcia Merino.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,184 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Welcome to SimulAVR’s documentation! &#8212; SimulAVR  documentation</title>
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="#">SimulAVR  documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Welcome to SimulAVR’s documentation!</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="toctree-wrapper compound">
+</div>
+<div class="section" id="welcome-to-simulavr-s-documentation">
+<h1>Welcome to SimulAVR’s documentation!<a class="headerlink" href="#welcome-to-simulavr-s-documentation" title="Permalink to this headline">¶</a></h1>
+<p><strong>Created by:</strong> Pau Belmonte Marti, David Fernandez Pons and Llorenç Garcia Merino</p>
+<a class="reference internal image-reference" href="_images/avr.jpg"><img alt="Simplificated architecture of AVR." src="_images/avr.jpg" style="width: 600px;" /></a>
+<p>The project is structured around a serie of modules, each of them
+contains one or more classes that respresent part of architecture or
+related concepts.</p>
+<p><a class="reference internal" href="bitvec.html#bitvec"><span class="std std-ref">BitVector</span></a>: aontains several classes that aim to represent words of
+different lengths involved in the simulation.</p>
+<p><a class="reference internal" href="memory.html#memory"><span class="std std-ref">Memory</span></a>: Contains several classes that represent the different
+types of memory of the architect of the AVR.</p>
+<p><a class="reference internal" href="state.html#state"><span class="std std-ref">State</span></a>: Contains a class that represents the state (including
+memory) of the microcontroller.</p>
+<p><a class="reference internal" href="instruction.html#instruction"><span class="std std-ref">Instruction</span></a>: Contains the classes that implement the meaning of
+each and every one of the operations machine language that supports
+the simulator.</p>
+<p><a class="reference internal" href="repertoir.html#repertoir"><span class="std std-ref">Repertoir</span></a>: Contains a class that groups the simulator’s
+instruction repertoire.</p>
+<p><a class="reference internal" href="avrmcu.html#avrmcu"><span class="std std-ref">AvrMcu</span></a>: Contains a class that implements the general control of
+the microcontroller. It is like the class that brings together the
+other components.</p>
+<p><strong>intexhel:</strong> Written by another person, to manage with .hex files.</p>
+<p><a class="reference internal" href="avrexcep.html#avrexcep"><span class="std std-ref">AVRException</span></a>: Defines various classes of
+exceptions used in the simulator.</p>
+<p><a class="reference internal" href="simavr.html#simavr"><span class="std std-ref">SimAVR</span></a>: Main module of the simulator. The users of the
+simulator invoke this module to simulate programs.</p>
+</div>
+<div class="section" id="working-time">
+<h1>Working time<a class="headerlink" href="#working-time" title="Permalink to this headline">¶</a></h1>
+<p>We divided the working time in 6 diferent groups, they are showed on the following table:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 39%" />
+<col style="width: 17%" />
+<col style="width: 20%" />
+<col style="width: 24%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td></td>
+<td><p><strong>Pau</strong></p></td>
+<td><p><strong>David</strong></p></td>
+<td><p><strong>Llorenç</strong></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Estudi</strong></p></td>
+<td><p>8</p></td>
+<td><p>6</p></td>
+<td><p>12</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Desenvolupament</strong></p></td>
+<td><p>4</p></td>
+<td><p>7</p></td>
+<td><p>62</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Disseny de test</strong></p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>20</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Documentació</strong></p></td>
+<td><p>4</p></td>
+<td><p>4</p></td>
+<td><p>31</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Altres</strong></p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>7</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><em>Total</em></p></td>
+<td><p>16</p></td>
+<td><p>17</p></td>
+<td><p>140</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
+</ul>
+</div>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="#">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Welcome to SimulAVR’s documentation!</a></li>
+<li><a class="reference internal" href="#working-time">Working time</a></li>
+<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
+</ul>
+
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/index.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="#">SimulAVR  documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Welcome to SimulAVR’s documentation!</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2020, Pau Belomnte Martí &amp; David Fernandez Pons &amp; Llorenç Garcia Merino.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3.
+    </div>
+  </body>
+</html>

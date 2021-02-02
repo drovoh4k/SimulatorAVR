@@ -1,0 +1,35 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+import unittest
+from avrexcep import AVRException
+from state import State
+from bitvec import Byte, Word
+from instruction import BreakException, InstRunner, Add, Sub, Subi, And, Or, Eor, Lsr, Mov, Ldi, Sts, Lds, Rjmp, Brbs, Brbc, Nop
+from repertoir import UnknownCodeError, Repertoir
+
+# Para hacer doctest:
+# https://docs.python.org/2.7/library/unittest.html
+
+
+class TestRepertoir(unittest.TestCase):
+    #####################################################################
+    # Repertoir
+    #####################################################################
+    def test_repertoir_find_add(self):
+        add = Add()
+        lst_instr = [add]
+        repertoir = Repertoir(lst_instr)        
+        instruction = Word(3172) # 0b0000110001100100 - Add
+        self.assertEqual(repertoir.find(instruction), add)
+
+    def test_repertoir_find_unkown(self):
+        lstr_instr = []
+        repertoir = Repertoir(lstr_instr)  
+        instruction = Word(3172) # 0b0000110001100100 - Add    
+        with self.assertRaises(AVRException):
+            repertoir.find(instruction)
+
+    
+if __name__ == '__main__':
+    unittest.main()

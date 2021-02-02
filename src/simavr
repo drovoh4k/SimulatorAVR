@@ -1,0 +1,157 @@
+#!/usr/bin/python
+#-*- coding: utf-8-*-
+
+import os
+import argparse
+from sys import argv
+from intelhex import IntelHex16bit
+
+from bitvec import Byte, Word
+from avrmcu import AvrMcu
+
+
+#####################################################################
+# Pre simulation
+#####################################################################
+def pre_simulation(avrmcu, arg):
+    """
+    Prepare the avr for start the simulation. Analize the arguments,
+    ajust all the parameters acording to the arguments and extract the
+    instructions from the correspoding file.
+
+    :param avr: Avr instance
+    :type avr: object from AvrMcu
+    :param arg: Arguments given
+    :param arg: str
+
+    :return options: Options for post simulation, such as dumps.
+    :rtype options: lst, boolean
+    """
+    # Analyse the arguments
+    arg = analyse_arg(arg)
+
+    # Extract instructions in hex from file
+    lst_hex = extract_hex(arg[0][0])
+
+    # Generate a list with instruction in correct format
+    lst_instr = []
+    for x in lst_hex:
+        instr = Word(int(x, 16))
+        lst_instr.append(instr)
+
+    # Add the instructions to ProgramMemory
+    avrmcu.set_prog(lst_instr)
+
+    # Set data memory trace
+    if arg[0][1]:
+        avrmcu._s.data.trace_on()
+
+    # Return options
+    return arg[1]
+    
+
+def analyse_arg(arg):
+    """
+    Analyse the arguments given and return a list of 5 elements. The
+    diferent options are the following:
+    
+    (Arg 0) Hex file (Required)
+    (Arg 1) -p : When execution ends, dump program memory.
+    (Arg 2) -r : When execution ends, dump registers.
+    (Arg 3) -d : When execution ends, dump data memory.
+    (Arg 4) -t : Activate trace of operations.
+
+    prog-program.hex : Program to execute.
+
+    :param avr: Avr instance
+    :type avr: object from AvrMcu
+    :param arg: Arguments given
+    :param arg: str
+
+    :return result_arg: list[0]=hex_path,trace lst[1]=Other options
+    :rtype result_arg: list
+    """
+    # Create the parser
+    parser = argparse.ArgumentParser(description='AVR simulator')
+
+    # Add the arguments
+    parser.add_argument('path',
+                        metavar='path',
+                        type=str,
+                        help='Path to hex file')
+    parser.add_argument('-p',
+                        action="store_true",
+                        default=False,
+                        help="Dump program memory")
+    parser.add_argument('-r',
+                        action="store_true",
+                        default=False,
+                        help="Dump registers")
+    parser.add_argument('-d', 
+                        action="store_true",
+                        default=False,
+                        help='Dump data memory')
+    parser.add_argument('-t',
+                        action="store_true",
+                        default=False,
+                        help='Activate trace data memory')
+
+    # Execute the parse_args() method
+    args = parser.parse_args()
+
+    return [args.path, args.t], [args.p, args.r, args.d]
+
+
+def extract_hex(path_file):
+    """
+    Extract binary from hex file
+    """
+    ih = IntelHex16bit()
+    ih.fromfile(path_file, format='hex')
+
+    lst_instr = []
+    for x in range(len(ih)):
+        instr = ih[x]
+        if instr != 65535: # Not FFF
+            lst_instr.append(hex(ih[x]))
+            
+    return lst_instr
+
+
+def post_simulate(avr, options):
+    """
+    Once the simulation ended, we proced to do the diferent dumps.
+
+    :param avr: Avr instance
+    :type avr: object from AvrMcu
+    :param options: Which dumps might be done
+    :type options: lst, boolean
+    """
+    
+    if options[0]: # Dump program memory
+        print "\n", avr.dump_prog()
+    if options[1]: # Dump registers
+        print "\n", avr.dump_reg()
+    if options[2]: # Dump data memory
+        print "\n", avr.dump_dat()
+
+
+if __name__ == '__main__':
+    # Define avr simulator
+    avrmcu = AvrMcu()
+    
+    # Catch arguments
+    arg = argv
+    
+    # Prepare all for simulation
+    options = pre_simulation(avrmcu, arg)
+
+    # Simulate
+    try:
+        avrmcu.run()
+    except SystemExit:
+        pass
+    
+    # Post simulate
+    post_simulate(avrmcu, options)
+

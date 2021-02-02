@@ -1,0 +1,587 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+import unittest
+from avrexcep import BreakException
+from state import State
+from bitvec import Byte, Word
+from instruction import BreakException, Add, Adc, Sub, Subi, And, Or, Eor, Lsr, Mov, Ldi, Sts, Lds, Rjmp, Brbs, Brbc, Nop, Break, In, Out
+
+# Para hacer doctest:
+# https://docs.python.org/2.7/library/unittest.html
+
+class TestInstruction(unittest.TestCase):
+    #####################################################################
+    # Add
+    #####################################################################
+    # __repr__
+    def test_Instruction_repr_Add(self):
+        add = Add()
+        self.assertEqual(str(add), "Add")
+
+    # match
+    def test_Instruction_match_Add_True_1(self):
+        instruction = Word(0b0000110000000000) # 0000 1100 0000 0000
+        add = Add()
+        self.assertEqual(add.match(instruction), True)
+    def test_Instruction_match_Add_True_2(self):
+        instruction = Word(0b0000110001100100) # 0000 1100 0110 0100
+        add = Add()
+        self.assertEqual(add.match(instruction), True)
+    def test_Instruction_match_Add_False_1(self):
+        instruction = Word(0b0000000000000001) # 0000 0000 0000 0001
+        add = Add()
+        self.assertEqual(add.match(instruction), False)
+
+    # execute
+    def test_Instruction_execute_Add(self):
+        # Init state
+        state = State()
+        self.assertEqual(int(state.data[1]), 0)
+        self.assertEqual(int(state.data[2]), 0)
+        self.assertEqual(int(state.pc), 0)
+        # Assigns values to registers
+        state.data[1] = Byte(1)
+        state.data[2] = Byte(1)
+        self.assertEqual(int(state.data[1]), 1)
+        self.assertEqual(int(state.data[2]), 1)
+        # Define an instruction and execute it
+        instr = Word(int("0000110000010010", 2)) # Add Reg1 + Reg2
+        add = Add()
+        add.execute(instr, state)
+        self.assertEqual(int(state.data[1]), 1) 
+        self.assertEqual(int(state.data[2]), 2)
+        # Check PC
+        self.assertEqual(int(state.pc), 1)
+
+
+    #####################################################################
+    # Adc
+    #####################################################################
+    # __repr__
+    def test_Instruction_repr_Adc(self):
+        adc = Adc()
+        self.assertEqual(str(adc), "Adc")
+
+        
+    #####################################################################
+    # Sub
+    #####################################################################
+    # __repr__
+    def test_Instruction_repr_Sub(self):
+        sub = Sub()
+        self.assertEqual(str(sub), "Sub")
+
+    # match
+    def test_Instruction_match_Sub_True_1(self):
+        instruction = Word(0b0001101000111100) # 0001 1010 0011 1100
+        sub = Sub()
+        self.assertEqual(sub.match(instruction), True)
+    def test_Instruction_match_Sub_True_2(self):
+        instruction = Word(0b0001100111110000) # 0001 1001 1111 0000
+        sub = Sub()
+        self.assertEqual(sub.match(instruction), True)
+    def test_Instruction_match_Sub_False_1(self):
+        instruction = Word(0b0000000000000001) # 0000 0000 0000 0001
+        sub = Sub()
+        self.assertEqual(sub.match(instruction), False)
+
+    # execute
+    def test_Instruction_execute_Sub(self):
+        # Init state
+        state = State()
+        self.assertEqual(int(state.data[1]), 0)
+        self.assertEqual(int(state.data[2]), 0)
+        self.assertEqual(int(state.pc), 0)
+        # Assigns values to registers
+        state.data[1] = Byte(2)
+        state.data[2] = Byte(1)
+        self.assertEqual(int(state.data[1]), 2)
+        self.assertEqual(int(state.data[2]), 1)
+        # Define an instruction and execute it
+        instr = Word(0b0001100000010010) # Sub Reg1 - Reg2
+        sub = Sub()
+        sub.execute(instr, state)
+        self.assertEqual(int(state.data[1]), 1) 
+        self.assertEqual(int(state.data[2]), 1)
+        self.assertEqual(int(state.pc), 1)
+
+
+    #####################################################################
+    # Subi
+    #####################################################################
+    # __repr__
+    def test_Instruction_repr_Subi(self):
+        subi = Subi()
+        self.assertEqual(str(subi), "Subi")
+
+    # match
+    def test_Instruction_match_Subi_True_1(self):
+        instruction = Word(0b0101101000111100) # 0101 1010 0011 1100
+        subi = Subi()
+        self.assertEqual(subi.match(instruction), True)
+    def test_Instruction_match_Subi_True_2(self):
+        instruction = Word(0b0101100111110000) # 0101 1001 1111 0000
+        subi = Subi()
+        self.assertEqual(subi.match(instruction), True)
+    def test_Instruction_match_Subi_False_1(self):
+        instruction = Word(0b0000000000000001) # 0000 0000 0000 0001
+        subi = Subi()
+        self.assertEqual(subi.match(instruction), False)
+
+    # execute
+    def test_Instruction_execute_Subi(self):
+        # Init state
+        state = State()
+        self.assertEqual(int(state.data[1]), 0)
+        self.assertEqual(int(state.data[2]), 0)
+        self.assertEqual(int(state.pc), 0)
+        # Assigns values to registers
+        state.data[1] = Byte(2)
+        self.assertEqual(int(state.data[1]), 2)
+        # Define an instruction and execute it
+        instr = Word(0b0101000000010001) # Subi Reg1 - 2
+        subi = Subi()
+        subi.execute(instr, state)
+        self.assertEqual(int(state.data[1]), 1) 
+        self.assertEqual(int(state.pc), 1)
+
+
+    #####################################################################
+    # And
+    #####################################################################
+    # __repr__
+    def test_Instruction_repr_And(self):
+        my_and = And()
+        self.assertEqual(str(my_and), "And")
+
+    # match
+    def test_Instruction_match_And_True_1(self):
+        instruction = Word(0b0010000100010101) # 0010 0001 0001 0101
+        my_and = And()
+        self.assertEqual(my_and.match(instruction), True)
+    def test_Instruction_match_And_True_2(self):
+        instruction = Word(0b0010001001001101) # 0010 0010 0100 1101
+        my_and = And()
+        self.assertEqual(my_and.match(instruction), True)
+    def test_Instruction_match_And_False_1(self):
+        instruction = Word(0b0000000000000001) # 0000 0000 0000 0001
+        my_and = And()
+        self.assertEqual(my_and.match(instruction), False)
+
+    # execute
+    def test_Instruction_execute_And(self):
+        # Init state
+        state = State()
+        self.assertEqual(int(state.data[1]), 0)
+        self.assertEqual(int(state.data[2]), 0)
+        self.assertEqual(int(state.pc), 0)
+        # Assigns values to registers
+        state.data[1] = Byte(0b10100110) # 1010 0110
+        state.data[2] = Byte(0b01101010) # 0110 1010
+        self.assertEqual(int(state.data[1]), 0b10100110)
+        self.assertEqual(int(state.data[2]), 0b01101010)
+        # Define an instruction and execute it
+        instr = Word(0b0010000000010010) # And Reg1 & Reg2
+        my_and = And()
+        my_and.execute(instr, state)
+        self.assertEqual(int(state.data[1]), 0b00100010) # 0010 0010
+        self.assertEqual(int(state.pc), 1)
+
+
+    #####################################################################
+    # Or
+    #####################################################################
+    # __repr__
+    def test_Instruction_repr_Or(self):
+        my_or = Or()
+        self.assertEqual(str(my_or), "Or")
+
+    # match
+    def test_Instruction_match_Or_True_1(self):
+        instruction = Word(0b0010100100010101) # 0010 1001 0001 0101
+        my_and = Or()
+        self.assertEqual(my_and.match(instruction), True)
+    def test_Instruction_match_Or_True_2(self):
+        instruction = Word(0b0010101001001101) # 0010 1010 0100 1101
+        my_and = Or()
+        self.assertEqual(my_and.match(instruction), True)
+    def test_Instruction_match_Or_False_1(self):
+        instruction = Word(0b0000000000000001) # 0000 0000 0000 0001
+        my_and = Or()
+        self.assertEqual(my_and.match(instruction), False)
+
+    # execute
+    def test_Instruction_execute_Or(self):
+        # Init state
+        state = State()
+        self.assertEqual(int(state.data[1]), 0)
+        self.assertEqual(int(state.data[2]), 0)
+        self.assertEqual(int(state.pc), 0)
+        # Assigns values to registers
+        state.data[1] = Byte(0b10100110) # 1010 0110
+        state.data[2] = Byte(0b01101010) # 0110 1010
+        self.assertEqual(int(state.data[1]), 0b10100110)
+        self.assertEqual(int(state.data[2]), 0b01101010)
+        # Define an instruction and execute it
+        instr = Word(0b0010100000010010) # Or Reg1 | Reg2
+        my_and = Or()
+        my_and.execute(instr, state)
+        self.assertEqual(int(state.data[1]), 0b11101110) # 1110 1110
+        self.assertEqual(int(state.pc), 1)
+
+
+    #####################################################################
+    # Eor
+    #####################################################################
+    # __repr__
+    def test_Instruction_repr_Eor(self):
+        eor = Eor()
+        self.assertEqual(str(eor), "Eor")
+
+    # match
+    def test_Instruction_match_Eor_True_1(self):
+        instruction = Word(0b0010010100010101) # 0010 1001 0001 0101
+        eor = Eor()
+        self.assertEqual(eor.match(instruction), True)
+    def test_Instruction_match_Eor_True_2(self):
+        instruction = Word(0b0010011001001101) # 0010 1010 0100 1101
+        eor = Eor()
+        self.assertEqual(eor.match(instruction), True)
+    def test_Instruction_match_Eor_False_1(self):
+        instruction = Word(0b0000000000000001) # 0000 0000 0000 0001
+        eor = Or()
+        self.assertEqual(eor.match(instruction), False)
+
+    # execute
+    def test_Instruction_execute_Eor(self):
+        # Init state
+        state = State()
+        self.assertEqual(int(state.data[1]), 0)
+        self.assertEqual(int(state.data[2]), 0)
+        self.assertEqual(int(state.pc), 0)
+        # Assigns values to registers
+        state.data[1] = Byte(0b10100110) # 1010 0110
+        state.data[2] = Byte(0b01101010) # 0110 1010
+        self.assertEqual(int(state.data[1]), 0b10100110)
+        self.assertEqual(int(state.data[2]), 0b01101010)
+        # Define an instruction and execute it
+        instr = Word(int("0010010000010010", 2)) # Eor Reg1 ^ Reg2
+        eor = Eor()
+        eor.execute(instr, state)
+        self.assertEqual(int(state.data[1]), 0b11001100) # 1100 1100
+        self.assertEqual(int(state.pc), 1)
+
+
+    #####################################################################
+    # Lsr
+    #####################################################################
+    # __repr__
+    def test_Instruction_repr_Lsr(self):
+        instruction = Lsr()
+        self.assertEqual(str(instruction), "Lsr")
+
+    # match
+    def test_Instruction_match_Lsr_True_1(self):
+        instruction = Word(0b1001010011000110) # 1001 0100 1100 0110
+        lsr = Lsr()
+        self.assertEqual(lsr.match(instruction), True)
+    def test_Instruction_match_Lsr_True_2(self):
+        instruction = Word(0b1001010101010110) # 1001 0101 0101 0110
+        lsr = Lsr()
+        self.assertEqual(lsr.match(instruction), True)
+    def test_Instruction_match_Lsr_False_1(self):
+        instruction = Word(0b0000000000000001) # 0000 0000 0000 0001
+        lsr = Lsr()
+        self.assertEqual(lsr.match(instruction), False)
+
+
+    #####################################################################
+    # Mov
+    #####################################################################
+    # __repr__
+    def test_Instruction_repr_Mov(self):
+        mov = Mov()
+        self.assertEqual(str(mov), "Mov")
+
+    # match
+    def test_Instruction_match_Mov_True_1(self):
+        instruction = Word(0b0010110011000110) # 0010 1100 1100 0110
+        mov = Mov()
+        self.assertEqual(mov.match(instruction), True)
+    def test_Instruction_match_Mov_True_2(self):
+        instruction = Word(0b0010110101010110) # 0010 1101 0101 0110
+        mov = Mov()
+        self.assertEqual(mov.match(instruction), True)
+    def test_Instruction_match_Mov_False_1(self):
+        instruction = Word(0b0000000000000001) # 0000 0000 0000 0001
+        mov = Mov()
+        self.assertEqual(mov.match(instruction), False)
+
+    # execute
+    def test_Instruction_execute_Mov(self):
+        # Init state
+        state = State()
+        self.assertEqual(int(state.data[1]), 0)
+        self.assertEqual(int(state.data[2]), 0)
+        self.assertEqual(int(state.pc), 0)
+        # Assigns values to registers
+        state.data[1] = Byte(0b10010110) # 1001 0110
+        state.data[2] = Byte(0b01011010) # 0101 1010
+        self.assertEqual(int(state.data[1]), 0b10010110)
+        self.assertEqual(int(state.data[2]), 0b01011010)
+        # Define an instruction and execute it
+        instr = Word(0b0010110000010010) # Mov Reg1 to Reg2
+        mov = Mov()
+        mov.execute(instr, state)
+        self.assertEqual(int(state.data[2]), 0b01011010) # 1100 1100
+        self.assertEqual(int(state.pc), 1)
+
+
+    #####################################################################
+    # Ldi
+    #####################################################################
+    # __repr__
+    def test_Instruction_repr_Ldi(self):
+        ldi = Ldi()
+        self.assertEqual(str(ldi), "Ldi")
+
+    # match
+    def test_Instruction_match_Ldi_True_1(self):
+        instruction = Word(0b1110000000000000) # 1110 0000 0000 0000
+        ldi = Ldi()
+        self.assertEqual(ldi.match(instruction), True)
+
+    def test_Instruction_match_Ldi_True_2(self):
+        instruction = Word(0b1110110001100000) # 1110 1100 0110 0000
+        ldi = Ldi()
+        self.assertEqual(ldi.match(instruction), True)
+
+    def test_Instruction_match_Ldi_False(self):
+        instruction = Word(0b1010000000000000) # 1010 0000 0000 0000
+        ldi = Ldi()
+        self.assertEqual(ldi.match(instruction), False)
+
+    # execute
+    def test_Instruction_execute_Ldi(self):
+        # Init state
+        state = State()
+        self.assertEqual(int(state.data[1]), 0)
+        self.assertEqual(int(state.data[2]), 0)
+        self.assertEqual(int(state.pc), 0)
+        # Define an instruction and execute it
+        instr = Word(0b1110100101000110) # Ldi 150 on reg 19
+        ldi = Ldi()
+        ldi.execute(instr, state)
+        self.assertEqual(int(state.data[20]), 150)
+        # Check PC
+        self.assertEqual(int(state.pc), 1)
+        # Check flags
+
+    
+    #####################################################################
+    # Sts
+    #####################################################################
+    # __repr__
+    def test_Instruction_repr_Sts(self):
+        instruction = Sts()
+        self.assertEqual(str(instruction), "Sts")
+
+    # match
+    def test_Instruction_match_Sts_True_1(self):
+        instruction = Word(0b1001001000000000) # 1001 0010 0000 0000
+        sts = Sts()
+        self.assertEqual(sts.match(instruction), True)
+    def test_Instruction_match_Sts_True_2(self):
+        instruction = Word(0b1001001001101001) # 1001 0010 0110 1001
+        sts = Sts()
+        self.assertEqual(sts.match(instruction), True)
+    def test_Instruction_match_Sts_False(self):
+        instruction = Word(0b0000000000000001) # 0000 0000 0000 0001
+        sts = Sts()
+        self.assertEqual(sts.match(instruction), False)
+
+    # execute
+    def test_Instruction_execute_Sts(self):
+        # Init state
+        state = State()
+        self.assertEqual(int(state.data[1]), 0)
+        self.assertEqual(int(state.data[2]), 0)
+        self.assertEqual(int(state.pc), 0)
+        # Assigns values to registers
+        state.data[1] = Byte(int("10010110", 2)) # 1001 0110
+        self.assertEqual(int(state.data[1]), 0b10010110)
+        # Define an instruction and execute it
+        instr = Word(0b1010100000010010) # STS Reg1 to Memory[2]
+        sts = Sts()
+        sts.execute(instr, state)
+        self.assertEqual(int(state.data[2]), 0b10010110) # 1100 1100
+        self.assertEqual(int(state.pc), 1)
+
+
+    #####################################################################
+    # Lds
+    #####################################################################
+    # __repr__
+    def test_Instruction_repr_Lds(self):
+        lds = Lds()
+        self.assertEqual(str(lds), "Lds")
+
+    # match
+    def test_Instruction_match_Lds_True_1(self):
+        instruction = Word(0b1010000000000000) # 1010 1000 0000 0000
+        lds = Lds()
+        self.assertEqual(lds.match(instruction), True)
+    def test_Instruction_match_Lds_True_2(self):
+        instruction = Word(0b1010010010111000) # 1010 1100 1011 1000
+        lds = Lds()
+        self.assertEqual(lds.match(instruction), True)
+    def test_Instruction_match_Lds_False(self):
+        instruction = Word(0b0000000000000001) # 1010 0000 0000 0000
+        lds = Lds()
+        self.assertEqual(lds.match(instruction), False)
+
+    # execute
+    def test_Instruction_execute_Lds(self):
+        # Init state
+        state = State()
+        self.assertEqual(int(state.data[1]), 0)
+        self.assertEqual(int(state.data[2]), 0)
+        self.assertEqual(int(state.pc), 0)
+        # Assigns values to registers
+        state.data[2] = Byte(0b10010110) # 1001 0110
+        self.assertEqual(int(state.data[2]), 0b10010110)
+        # Define an instruction and execute it
+        instr = Word(0b1010000000100001) # LDS Memory[2] to Reg1
+        lds = Lds()
+        lds.execute(instr, state)
+        self.assertEqual(int(state.data[1]), 0b10010110) # 1100 1100
+        self.assertEqual(int(state.pc), 1)
+
+
+    #####################################################################
+    # Rjmp
+    #####################################################################
+    # __repr__
+    def test_Instruction_repr_Rjmp(self):
+        rjmp = Rjmp()
+        self.assertEqual(str(rjmp), "Rjmp")
+
+
+    #####################################################################
+    # Brbs
+    #####################################################################
+    # __repr__
+    def test_Instruction_repr_Brbs(self):
+        brbs = Brbs()
+        self.assertEqual(str(brbs), "Brbs")
+
+
+    #####################################################################
+    # Nop
+    #####################################################################
+    # __repr__
+    def test_Instruction_repr_Nop(self):
+        nop = Nop()
+        self.assertEqual(str(nop), "Nop")
+
+    # match
+    def test_Instruction_match_Nop_True(self):
+        instruction = Word(0b0000000000000000) # 0000 0000 0000 0000
+        nop = Nop()
+        self.assertEqual(nop.match(instruction), True)
+
+    def test_Instruction_match_Nop_False(self):
+        instruction = Word(0b0000000000000001) # 0000 0000 0000 0001
+        nop = Break()
+        self.assertEqual(nop.match(instruction), False)
+        
+    # execute
+    def test_Instruction_execute_Nop(self):
+        # Init state
+        state = State()
+        # Define an instruction and execute it
+        word = Word(0b0000000000000000) # NOP
+        nop = Nop()
+        nop.execute(word, state)
+        self.assertEqual(int(state.pc), 1)
+
+
+    #####################################################################
+    # Break 
+    #####################################################################
+    # __repr__
+    def test_Instruction_repr_Break(self):
+        brk = Break()
+        self.assertEqual(str(brk), "Break")
+
+    # match
+    def test_Instruction_match_Break_True(self):
+        instruction = Word(0b1001010110011000) # 1001 0101 1001 1000
+        brk = Break()
+        self.assertEqual(brk.match(instruction), True)
+
+    def test_Instruction_match_Break_False(self):
+        instruction = Word(0b0000000000000001) # 0000 0000 0000 0001
+        brk = Break()
+        self.assertEqual(brk.match(instruction), False)
+
+    # execute
+    def test_Instruction_execute_Break(self):
+        # Init state 
+        state = State()
+        # Define an instruction and execute it
+        word = Word(0b1001010110011000) # BREAK
+        brk = Break()
+        with self.assertRaises(BreakException):
+            brk.execute(word, state)
+
+
+    #####################################################################
+    # In
+    #####################################################################
+    # __repr__
+    def test_Instruction_repr_In(self):
+        my_in = In()
+        self.assertEqual(str(my_in), "In")
+
+    # match
+    def test_Instruction_match_In_True_1(self):
+        instruction = Word(0b1011000000000000) # 1011 0000 0000 0000
+        my_in = In()
+        self.assertEqual(my_in.match(instruction), True)
+    def test_Instruction_match_In_True_2(self):
+        instruction = Word(0b1011010010111000) # 1011 0100 1011 1000
+        my_in = In()
+        self.assertEqual(my_in.match(instruction), True)
+    def test_Instruction_match_In_False(self):
+        instruction = Word(0b1010000000000000) # 1010 0000 0000 0000
+        my_in = In()
+        self.assertEqual(my_in.match(instruction), False)
+
+
+    #####################################################################
+    # Out
+    #####################################################################
+    # __repr__
+    def test_Instruction_repr_Out(self):
+        my_out = Out()
+        self.assertEqual(str(my_out), "Out")
+
+    # match
+    def test_Instruction_match_In_True_1(self):
+        instruction = Word(0b1011100000000000) # 1011 1000 0000 0000
+        my_out = Out()
+        self.assertEqual(my_out.match(instruction), True)
+    def test_Instruction_match_In_True_2(self):
+        instruction = Word(0b1011110010111000) # 1011 1100 1011 1000
+        my_out = Out()
+        self.assertEqual(my_out.match(instruction), True)
+    def test_Instruction_match_In_False(self):
+        instruction = Word(0b1010000000000000) # 1010 0000 0000 0000
+        my_out = Out()
+        self.assertEqual(my_out.match(instruction), False)
+
+
+if __name__ == '__main__':
+    unittest.main()

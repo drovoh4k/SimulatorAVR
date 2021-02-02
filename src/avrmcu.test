@@ -1,0 +1,80 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+import unittest
+from bitvec import Byte, Word
+from avrmcu import AvrMcu
+
+# Para hacer doctest:
+# https://docs.python.org/2.7/library/unittest.html
+
+class TestAvrMcu(unittest.TestCase):
+    
+#####################################################################
+# AvrMcu
+#####################################################################
+    # reset
+    def test_AvrMcu_reset(self):
+        """
+        Creates an instance of AvrMcu, adds a value on memory, checks
+        that it's there, and reset and check memory again.
+        """
+        avrmcu = AvrMcu()
+        word = Word(4)
+        avrmcu._s.data[0] = word
+        self.assertEqual(int(avrmcu._s.data._m[0]), 4)
+        avrmcu.reset()
+        self.assertEqual(int(avrmcu._s.data._m[0]), 0)
+
+    # set_prog
+    def test_AvrMcu_set_prog(self):
+        """
+        Create a certain number of instructions, add them to program
+        memory and then check the if data correctly stored.
+        """
+        avrmcu = AvrMcu()
+        instr_1 = Word(23) # Instruction 1
+        instr_2 = Word(41) # Instruction 2
+        instr_3 = Word(78) # Instruction 3
+        avrmcu.set_prog([instr_1, instr_2, instr_3])
+        self.assertEqual(int(avrmcu._s.prog[0]), 23)
+        self.assertEqual(int(avrmcu._s.prog[1]), 41)
+        self.assertEqual(int(avrmcu._s.prog[2]), 78)
+
+    # run
+    def test_AvrMcu_run_add(self):
+        """
+        """
+        avrmcu = AvrMcu()
+        # Asssign values to registers
+        avrmcu._s.data[1] = 1
+        avrmcu._s.data[2] = 1
+        self.assertEqual(int(avrmcu._s.data[1]), 1)
+        self.assertEqual(int(avrmcu._s.data[2]), 1)
+        
+        # Add instruction
+        instr_1 = Word(3090) # 0000 1100 0001 0010 - Add Reg1 = Reg1 + Reg2
+        avrmcu.set_prog([instr_1])
+        # Execute instruction
+        avrmcu.run()
+        
+        self.assertEqual(int(avrmcu._s.data._m[2]), 2)
+        
+
+    # set_trace
+    def test_AvrMcu_set_trace(self):
+        """
+        Checks trace mode, then activates, and check it again,
+        deactivate it and check it again.
+        """
+        avrmcu = AvrMcu()
+        self.assertFalse(avrmcu._s.data._trace)
+        avrmcu.set_trace(True)
+        self.assertTrue(avrmcu._s.data._trace)
+        avrmcu.set_trace(False)
+        self.assertFalse(avrmcu._s.data._trace)
+
+
+if __name__ == '__main__':
+    unittest.main()
+
